@@ -1,0 +1,55 @@
+<svg width="1400" height="760" viewBox="0 0 1400 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="System Architecture">
+  <defs>
+    <style>
+      .title { font: 700 34px Inter, Segoe UI, sans-serif; fill: #e8f2ff; }
+      .label { font: 600 18px Inter, Segoe UI, sans-serif; fill: #d3e6f6; }
+      .body { font: 400 15px Inter, Segoe UI, sans-serif; fill: #9fc0d7; }
+      .mono { font: 500 14px JetBrains Mono, Consolas, monospace; fill: #00d4b8; }
+      .panel { fill: #0a1e3d; stroke: rgba(0,212,184,0.28); stroke-width: 1.5; }
+      .line { stroke: #00d4b8; stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 z" fill="#00d4b8" />
+    </marker>
+  </defs>
+
+  <rect width="1400" height="760" fill="#050d1e"/>
+  <text x="60" y="72" class="title">Triton Coastal Intelligence - Production Architecture</text>
+
+  <rect x="70" y="130" width="360" height="230" rx="14" class="panel"/>
+  <text x="95" y="170" class="label">Field & Sensor Inputs</text>
+  <text x="95" y="204" class="body">Observer submissions (mobile)</text>
+  <text x="95" y="230" class="body">Drone survey metadata</text>
+  <text x="95" y="256" class="body">Beach camera AI classifications</text>
+  <text x="95" y="282" class="body">Wind, wave, tide signals</text>
+  <text x="95" y="322" class="mono">Proprietary coastal operations dataset</text>
+
+  <rect x="520" y="130" width="360" height="230" rx="14" class="panel"/>
+  <text x="545" y="170" class="label">API Platform (Node.js + Express)</text>
+  <text x="545" y="204" class="body">REST endpoints for beaches, forecasts, feed</text>
+  <text x="545" y="230" class="body">Role-scoped organization access control</text>
+  <text x="545" y="256" class="body">County rollups and analytics rankings</text>
+  <text x="545" y="282" class="body">Contract/pricing & report generation routes</text>
+  <text x="545" y="322" class="mono">JWT auth + modular route handlers</text>
+
+  <rect x="970" y="130" width="360" height="230" rx="14" class="panel"/>
+  <text x="995" y="170" class="label">Frontend Operations Console</text>
+  <text x="995" y="204" class="body">Regional coastal map (canvas)</text>
+  <text x="995" y="230" class="body">TSI intelligence panels and charts</text>
+  <text x="995" y="256" class="body">Forecast confidence and live feed</text>
+  <text x="995" y="282" class="body">County and municipal command views</text>
+  <text x="995" y="322" class="mono">React + Vite + Tailwind + Recharts</text>
+
+  <rect x="520" y="440" width="360" height="220" rx="14" class="panel"/>
+  <text x="545" y="480" class="label">Data Layer</text>
+  <text x="545" y="514" class="body">PostgreSQL + PostGIS geospatial storage</text>
+  <text x="545" y="540" class="body">Prisma ORM domain models</text>
+  <text x="545" y="566" class="body">23-beach seed set with history & seasonal baselines</text>
+  <text x="545" y="604" class="mono">Deterministic seed for fast demos and QA</text>
+
+  <path d="M430 245 L510 245" class="line" marker-end="url(#arrow)"/>
+  <path d="M880 245 L960 245" class="line" marker-end="url(#arrow)"/>
+  <path d="M700 360 L700 430" class="line" marker-end="url(#arrow)"/>
+  <path d="M1060 360 L860 450" class="line" marker-end="url(#arrow)"/>
+  <path d="M700 440 C 560 390, 420 340, 300 320" class="line" marker-end="url(#arrow)"/>
+</svg>

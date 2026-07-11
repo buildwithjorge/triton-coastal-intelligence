@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Beach {
+  id                      Int                  @id @default(autoincrement())
+  name                    String               @unique
+  shortName               String
+  county                  String
+  lat                     Float
+  lng                     Float
+  tsi                     Int
+  severity                String
+  trend7d                 Int
+  windSpeed               Float
+  windDirection           String
+  waveHeight              Float
+  tide                    String
+  crewDeployed            Int
+  biomassEstTons          Float
+  cleanupCostEst          Float
+  recoverableBiomassTons  Float
+  productValueEst         Float
+  lastObservedAt          DateTime
+  cleanupStatus           String
+  createdAt               DateTime             @default(now())
+  updatedAt               DateTime             @updatedAt
+  forecasts               Forecast[]
+  observations            Observation[]
+  historyPoints           BeachHistoryPoint[]
+  seasonalPoints          BeachSeasonalPoint[]
+  feedEvents              FeedEvent[]
+  alerts                  Alert[]
+
+  @@index([county])
+  @@index([severity])
+}
+
+model Forecast {
+  id                       Int      @id @default(autoincrement())
+  beachId                  Int
+  horizon                  String
+  arrivalProbability       Int
+  expectedSeverity         String
+  expectedAccumulationTons Float
+  confidence               Int
+  drivers                  Json
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+  beach                    Beach    @relation(fields: [beachId], references: [id], onDelete: Cascade)
+
+  @@unique([beachId, horizon])
+  @@index([horizon])
+}
+
+model Observation {
+  id           String   @id
+  beachId      Int
+  submittedAt  DateTime
+  observerName String
+  severity     String
+  notes        String
+  hasPhoto     Boolean
+  photoUrl     String?
+  lat          Float
+  lng          Float
+  createdAt    DateTime @default(now())
+  beach        Beach    @relation(fields: [beachId], references: [id], onDelete: Cascade)
+
+  @@index([beachId, submittedAt])
+}
+
+model BeachHistoryPoint {
+  id        Int      @id @default(autoincrement())
+  beachId   Int
+  date      DateTime
+  tsi       Int
+  createdAt DateTime @default(now())
+  beach     Beach    @relation(fields: [beachId], references: [id], onDelete: Cascade)
+
+  @@unique([beachId, date])
+}
+
+model BeachSeasonalPoint {
+  id        Int      @id @default(autoincrement())
+  beachId   Int
+  month     Int
+  avgTsi    Int
+  createdAt DateTime @default(now())
+  beach     Beach    @relation(fields: [beachId], references: [id], onDelete: Cascade)
+
+  @@unique([beachId, month])
+}
+
+model FeedEvent {
+  id          String   @id
+  timestamp   DateTime
+  category    String
+  level       String
+  beachId     Int?
+  county      String?
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+  beach       Beach?   @relation(fields: [beachId], references: [id], onDelete: SetNull)
+
+  @@index([timestamp])
+  @@index([level])
+}
+
+model Alert {
+  id                String   @id
+  level             String
+  beachId           Int?
+  county            String
+  recommendedAction String
+  message           String
+  timestamp         DateTime
+  createdAt         DateTime @default(now())
+  beach             Beach?   @relation(fields: [beachId], references: [id], onDelete: SetNull)
+
+  @@index([timestamp])
+  @@index([level])
+}

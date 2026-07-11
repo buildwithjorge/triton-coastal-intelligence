@@ -1,0 +1,15 @@
+{
+  "name": "triton-coastal-intelligence",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @triton/web",
+    "dev:api": "npm run dev -w @triton/api",
+    "build": "npm run build -ws",
+    "db:seed": "npm run db:seed -w @triton/api"
+  }
+}
