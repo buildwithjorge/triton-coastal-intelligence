@@ -1,3 +1,8 @@
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
 import type { Beach, Forecast, Observation } from "@triton/shared";
 
 export type BeachDetailResponse = {

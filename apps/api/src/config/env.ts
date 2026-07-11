@@ -1,4 +1,9 @@
-﻿import dotenv from "dotenv";
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
+import dotenv from "dotenv";
 
 dotenv.config();
 

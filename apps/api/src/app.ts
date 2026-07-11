@@ -1,3 +1,8 @@
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
 import cors from "cors";
 import express from "express";
 import { alertsRouter } from "./modules/alerts/router";

@@ -1,4 +1,9 @@
-﻿import { severityColors, type Beach } from "@triton/shared";
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
+import { severityColors, type Beach } from "@triton/shared";
 import { Area, AreaChart, CartesianGrid, Line, LineChart, PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { BeachDetailResponse } from "../../types/api";
 import { TsiArcGauge } from "../common/TsiArcGauge";

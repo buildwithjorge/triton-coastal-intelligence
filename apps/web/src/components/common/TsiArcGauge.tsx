@@ -1,3 +1,8 @@
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
 import { motion } from "framer-motion";
 import { severityColors, type Severity } from "@triton/shared";
 

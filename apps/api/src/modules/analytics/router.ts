@@ -1,4 +1,9 @@
-﻿import { Router } from "express";
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
+import { Router } from "express";
 import { prisma } from "../../lib/prisma";
 
 export const analyticsRouter = Router();

@@ -1,4 +1,9 @@
-﻿export const severityOrder = ["Low", "Moderate", "Heavy", "Severe"] as const;
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
+export const severityOrder = ["Low", "Moderate", "Heavy", "Severe"] as const;
 
 export type Severity = (typeof severityOrder)[number];
 

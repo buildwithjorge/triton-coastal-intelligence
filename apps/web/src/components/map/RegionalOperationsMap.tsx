@@ -1,4 +1,9 @@
-﻿import { counties, severityColors, type Beach } from "@triton/shared";
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
+import { counties, severityColors, type Beach } from "@triton/shared";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type Props = {

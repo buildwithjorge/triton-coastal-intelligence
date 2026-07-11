@@ -1,3 +1,8 @@
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:4000";
 async function fetchJson(path) {
     const response = await fetch(`${API_BASE}${path}`);

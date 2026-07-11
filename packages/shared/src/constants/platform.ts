@@ -1,4 +1,9 @@
-﻿export const platformMaturity = {
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
+export const platformMaturity = {
   "Triton COS (Coastal Operating System)": "Operational",
   "FSIN (Florida Sargassum Intelligence Network)": "Operational",
   "Coastal Guardian Net System": "Pilot Deployment Program",

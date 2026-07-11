@@ -1,4 +1,9 @@
-﻿import type { CleanupStatus, Severity } from "../constants/severity";
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
+import type { CleanupStatus, Severity } from "../constants/severity";
 import type { County, EventLevel, ForecastHorizon } from "../constants/platform";
 
 export interface Beach {

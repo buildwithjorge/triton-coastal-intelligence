@@ -1,4 +1,9 @@
-﻿import { contractTiers, procurementThreshold, volumeBundlePricing } from "@triton/shared";
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
+import { contractTiers, procurementThreshold, volumeBundlePricing } from "@triton/shared";
 import { Router } from "express";
 
 export const contractsRouter = Router();

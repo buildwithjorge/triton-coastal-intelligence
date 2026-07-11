@@ -1,3 +1,8 @@
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
 import { PrismaClient } from "@prisma/client";
 import { contractTiers, counties, forecastHorizons, severityFromTsi, type County, type ForecastHorizon, type Severity } from "@triton/shared";
 import dotenv from "dotenv";

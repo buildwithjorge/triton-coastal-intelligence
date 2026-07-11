@@ -1,3 +1,8 @@
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
 import { severityFromTsi, type CleanupStatus, type Severity } from "@triton/shared";
 import type { Beach as PrismaBeach, FeedEvent as PrismaFeedEvent, Forecast as PrismaForecast, Observation as PrismaObservation } from "@prisma/client";
 

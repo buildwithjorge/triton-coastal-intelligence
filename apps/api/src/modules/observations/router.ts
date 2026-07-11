@@ -1,4 +1,9 @@
-﻿import { severityOrder, type Severity } from "@triton/shared";
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
+import { severityOrder, type Severity } from "@triton/shared";
 import { Router } from "express";
 import { z } from "zod";
 import { deriveSeverity, mergeSeverityIntoTsi, toObservation } from "../../lib/mappers";

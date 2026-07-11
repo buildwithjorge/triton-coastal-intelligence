@@ -1,3 +1,8 @@
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
 import { jsx as _jsx } from "react/jsx-runtime";
 import React from "react";
 import ReactDOM from "react-dom/client";

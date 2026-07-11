@@ -1,4 +1,9 @@
-﻿import { counties, type County } from "@triton/shared";
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
+import { counties, type County } from "@triton/shared";
 import { Router } from "express";
 import { toBeach } from "../../lib/mappers";
 import { prisma } from "../../lib/prisma";

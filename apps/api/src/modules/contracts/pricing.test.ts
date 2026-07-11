@@ -1,3 +1,8 @@
+/**
+ * Module: 
+ * Purpose: Implements part of the Triton Coastal Intelligence application.
+ */
+
 import test from "node:test";
 import assert from "node:assert/strict";
 import { contractTiers, procurementThreshold } from "@triton/shared";
