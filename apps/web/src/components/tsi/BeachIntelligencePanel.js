@@ -1,9 +1,8 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 /**
- * Module: 
+ * Module:
  * Purpose: Implements part of the Triton Coastal Intelligence application.
  */
-
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { severityColors } from "@triton/shared";
 import { Area, AreaChart, CartesianGrid, Line, LineChart, PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { TsiArcGauge } from "../common/TsiArcGauge";

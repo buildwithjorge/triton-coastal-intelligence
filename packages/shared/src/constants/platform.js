@@ -1,20 +1,19 @@
 /**
- * Module: 
+ * Module:
  * Purpose: Implements part of the Triton Coastal Intelligence application.
  */
-
 export const platformMaturity = {
     "Triton COS (Coastal Operating System)": "Operational",
     "FSIN (Florida Sargassum Intelligence Network)": "Operational",
     "Coastal Guardian Net System": "Pilot Deployment Program",
-    "SpinDryerâ„¢ (mobile biomass dewatering)": "Patent Pending Â· Field Evaluation"
+    "SpinDryer™ (mobile biomass dewatering)": "Patent Pending · Field Evaluation"
 };
 export const counties = ["Palm Beach", "Broward", "Miami-Dade"];
 export const forecastHorizons = ["24h", "48h", "72h", "7d", "14d"];
 export const eventLevels = ["Critical", "Warning", "Info"];
 export const procurementThreshold = {
     floridaSoleSource90DayUsd: 49500,
-    citation: "Fla. Stat. Â§125.35"
+    citation: "Fla. Stat. §125.35"
 };
 export const contractTiers = [
     {

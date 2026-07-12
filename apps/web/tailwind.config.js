@@ -1,3 +1,7 @@
+/**
+ * Module: apps/web/tailwind.config.ts
+ * Purpose: Defines Tailwind content scanning and design-token extensions for the web app.
+ */
 const config = {
     content: ["./index.html", "./src/**/*.{ts,tsx}"],
     theme: {

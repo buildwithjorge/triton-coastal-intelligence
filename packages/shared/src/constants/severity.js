@@ -1,8 +1,7 @@
 /**
- * Module: 
+ * Module:
  * Purpose: Implements part of the Triton Coastal Intelligence application.
  */
-
 export const severityOrder = ["Low", "Moderate", "Heavy", "Severe"];
 export const severityLabels = {
     Low: "Minimal / Low",
