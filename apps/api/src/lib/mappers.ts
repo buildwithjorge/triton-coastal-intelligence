@@ -6,6 +6,30 @@
 import { severityFromTsi, type CleanupStatus, type Severity } from "@triton/shared";
 import type { Beach as PrismaBeach, FeedEvent as PrismaFeedEvent, Forecast as PrismaForecast, Observation as PrismaObservation } from "@prisma/client";
 
+function parseForecastDrivers(raw: string): { label: string; weight: number }[] {
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed
+      .filter((item): item is { label: string; weight: number } => {
+        return (
+          typeof item === "object" &&
+          item !== null &&
+          "label" in item &&
+          "weight" in item &&
+          typeof (item as { label: unknown }).label === "string" &&
+          typeof (item as { weight: unknown }).weight === "number"
+        );
+      })
+      .map((item) => ({ label: item.label, weight: item.weight }));
+  } catch {
+    return [];
+  }
+}
+
 export function toBeach(beach: PrismaBeach) {
   return {
     id: beach.id,
@@ -41,7 +65,7 @@ export function toForecast(forecast: PrismaForecast) {
     expectedSeverity: forecast.expectedSeverity,
     expectedAccumulationTons: forecast.expectedAccumulationTons,
     confidence: forecast.confidence,
-    drivers: forecast.drivers as { label: string; weight: number }[]
+    drivers: parseForecastDrivers(forecast.drivers)
   };
 }
 

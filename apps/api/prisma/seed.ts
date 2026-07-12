@@ -1,6 +1,14 @@
 /**
- * Module: 
- * Purpose: Implements part of the Triton Coastal Intelligence application.
+ * Module: apps/api/prisma/seed.ts
+ * Purpose: Seeds a realistic operational dataset for Triton Coastal Intelligence.
+ *
+ * This script creates the complete regional baseline used by the UI and API:
+ * - 23 beaches from Jupiter to Virginia Key
+ * - 7-day history and 12-month seasonal baselines
+ * - Forecasts, observations, feed events, and alerts
+ *
+ * The values are deterministic enough for repeatable demos/tests while still
+ * looking realistic for municipal operations workflows.
  */
 
 import { PrismaClient } from "@prisma/client";
@@ -10,11 +18,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
+// Load root-level environment variables for DATABASE_URL and related settings.
 dotenv.config({ path: path.resolve(currentDir, "../../../.env") });
 dotenv.config();
 
 const prisma = new PrismaClient();
 
+// Minimal source record used to derive all related seeded entities.
 type SeedBeach = {
 	name: string;
 	shortName: string;
@@ -24,6 +34,8 @@ type SeedBeach = {
 	tsi: number;
 };
 
+// Canonical beach list in north-to-south order with an intentional
+// severity gradient (lower Palm Beach, peak Broward, taper Miami-Dade).
 const beaches: SeedBeach[] = [
 	{ name: "Jupiter Beach", shortName: "Jupiter", county: "Palm Beach", lat: 26.9342, lng: -80.0729, tsi: 18 },
 	{ name: "Juno Beach", shortName: "Juno", county: "Palm Beach", lat: 26.8798, lng: -80.0559, tsi: 21 },
@@ -50,15 +62,22 @@ const beaches: SeedBeach[] = [
 	{ name: "Virginia Key", shortName: "Virginia Key", county: "Miami-Dade", lat: 25.7367, lng: -80.1575, tsi: 44 }
 ];
 
+// Small lookup pools used to rotate operational conditions across beaches.
 const windDirections = ["NNE", "NE", "ENE", "E", "ESE", "SE"];
 const tides = ["Rising", "Falling", "High", "Low"] as const;
 const cleanupStatuses = ["Clear", "Monitoring", "Scheduled", "Active", "Emergency"] as const;
 const feedCategories = ["Drone Survey", "Cleanup Dispatch", "Wind Shift", "Offshore Patch", "Forecast Update", "Field Observation"] as const;
 
+// Utility guardrail used throughout seeding to keep generated values
+// within realistic ranges expected by the app and charts.
 function clamp(n: number, min: number, max: number): number {
 	return Math.max(min, Math.min(max, n));
 }
 
+// Seasonal factor model:
+// - Peak months (May-Sep) increase baseline severity
+// - Shoulder months (Apr/Oct) slightly elevated
+// - Winter trough (Dec-Feb) reduced pressure
 function monthSeasonFactor(month: number): number {
 	if (month >= 5 && month <= 9) return 1.22;
 	if (month === 4 || month === 10) return 1.05;
@@ -66,6 +85,7 @@ function monthSeasonFactor(month: number): number {
 	return 0.88;
 }
 
+// Horizon multipliers simulate rising uncertainty/arrival pressure over time.
 function forecastBoost(horizon: ForecastHorizon): number {
 	switch (horizon) {
 		case "24h":
@@ -83,6 +103,8 @@ function forecastBoost(horizon: ForecastHorizon): number {
 	}
 }
 
+// Driver-weight generator for forecast explainability views.
+// We model each driver as a bounded function of current TSI.
 function driverWeights(baseTsi: number) {
 	const wind = clamp(55 + Math.round(baseTsi * 0.45), 40, 97);
 	const offshore = clamp(48 + Math.round(baseTsi * 0.5), 35, 98);
@@ -96,6 +118,7 @@ function driverWeights(baseTsi: number) {
 	];
 }
 
+// Maps operational severity to feed/alert urgency levels.
 function levelForSeverity(severity: Severity): "Critical" | "Warning" | "Info" {
 	if (severity === "Severe") return "Critical";
 	if (severity === "Heavy") return "Warning";
@@ -105,6 +128,7 @@ function levelForSeverity(severity: Severity): "Critical" | "Warning" | "Info" {
 async function main() {
 	console.log("Seeding Triton Coastal Intelligence dataset...");
 
+ // Clear dependent tables first so re-seeding remains idempotent.
 	await prisma.alert.deleteMany();
 	await prisma.feedEvent.deleteMany();
 	await prisma.observation.deleteMany();
@@ -114,10 +138,14 @@ async function main() {
 	await prisma.beach.deleteMany();
 
 	const now = new Date();
+ // Retained for future cross-entity linking/debugging needs.
 	const beachByName = new Map<string, { id: number; tsi: number; county: County; lat: number; lng: number }>();
 
+ // Seed each beach and all associated child entities in one pass.
 	for (let i = 0; i < beaches.length; i += 1) {
 		const beach = beaches[i];
+
+  // Derive current-state operational fields from TSI.
 		const severity = severityFromTsi(beach.tsi);
 		const trend7d = clamp(Math.round((beach.tsi - 45) / 7), -10, 12);
 		const waveHeight = Number((0.7 + beach.tsi / 40).toFixed(1));
@@ -128,6 +156,7 @@ async function main() {
 		const productValueEst = Math.round(recoverableBiomassTons * 540);
 		const crewDeployed = clamp(Math.round(beach.tsi / 12), 1, 10);
 
+	// Persist core beach record used across map, intelligence, and analytics views.
 		const created = await prisma.beach.create({
 			data: {
 				name: beach.name,
@@ -152,6 +181,7 @@ async function main() {
 			}
 		});
 
+		// Cache lookup for potential downstream linkage/extensions.
 		beachByName.set(created.name, {
 			id: created.id,
 			tsi: beach.tsi,
@@ -160,6 +190,7 @@ async function main() {
 			lng: beach.lng
 		});
 
+		// Build trailing 7-day history with mild oscillation + drift to avoid flat lines.
 		const historyRows = Array.from({ length: 7 }).map((_, dayOffset) => {
 			const dayIndex = 6 - dayOffset;
 			const oscillation = Math.round(Math.sin((dayIndex + i) * 0.8) * 4);
@@ -173,6 +204,7 @@ async function main() {
 
 		await prisma.beachHistoryPoint.createMany({ data: historyRows });
 
+		// Build 12-month seasonal baseline for annual trend visualizations.
 		const seasonalRows = Array.from({ length: 12 }).map((_, monthIdx) => {
 			const month = monthIdx + 1;
 			const factor = monthSeasonFactor(month);
@@ -186,6 +218,7 @@ async function main() {
 
 		await prisma.beachSeasonalPoint.createMany({ data: seasonalRows });
 
+		// Seed all forecast horizons with explainability drivers.
 		const forecastRows = forecastHorizons.map((horizon) => {
 			const multiplier = forecastBoost(horizon);
 			const probability = clamp(Math.round(beach.tsi * multiplier + 8), 10, 99);
@@ -199,14 +232,16 @@ async function main() {
 				expectedSeverity: severityFromTsi(expectedTsi),
 				expectedAccumulationTons,
 				confidence,
-				drivers: driverWeights(beach.tsi)
+				drivers: JSON.stringify(driverWeights(beach.tsi))
 			};
 		});
 
+		// Use per-row inserts for simple compatibility and explicit data shape.
 		for (const row of forecastRows) {
 			await prisma.forecast.create({ data: row });
 		}
 
+		// Seed observer records (the proprietary field-data moat).
 		const obsCount = 3 + (i % 3);
 		for (let obsIdx = 0; obsIdx < obsCount; obsIdx += 1) {
 			const obsTsi = clamp(beach.tsi + obsIdx - 1, 5, 98);
@@ -232,6 +267,7 @@ async function main() {
 			});
 		}
 
+			// Seed a primary forecast-update feed item per beach.
 		await prisma.feedEvent.create({
 			data: {
 				id: `FEED-${created.id}-A`,
@@ -245,6 +281,7 @@ async function main() {
 			}
 		});
 
+		// Seed an additional operational feed item per beach with varied category.
 		await prisma.feedEvent.create({
 			data: {
 				id: `FEED-${created.id}-B`,
@@ -258,6 +295,7 @@ async function main() {
 			}
 		});
 
+		// Only elevated beaches generate critical/emergency alert records.
 		if (severity === "Heavy" || severity === "Severe") {
 			await prisma.alert.create({
 				data: {
@@ -276,6 +314,7 @@ async function main() {
 		}
 	}
 
+		 // Add county-level operations brief feed entries.
 	const operationsSummaryFeed = counties.map((county, idx) => ({
 		id: `FEED-COUNTY-${idx + 1}`,
 		timestamp: new Date(now.getTime() - (idx + 1) * 50 * 60 * 1000),
@@ -291,6 +330,7 @@ async function main() {
 	console.log(`Seed complete: ${beaches.length} beaches and ${contractTiers.length} contract tiers referenced from shared constants.`);
 }
 
+	// Standard script lifecycle: run seed, report errors, always disconnect.
 main()
 	.catch((error) => {
 		console.error("Seed failed", error);

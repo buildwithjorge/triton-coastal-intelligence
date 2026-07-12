@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -52,7 +52,7 @@ model Forecast {
   expectedSeverity         String
   expectedAccumulationTons Float
   confidence               Int
-  drivers                  Json
+  drivers                  String
   createdAt                DateTime @default(now())
   updatedAt                DateTime @updatedAt
   beach                    Beach    @relation(fields: [beachId], references: [id], onDelete: Cascade)
