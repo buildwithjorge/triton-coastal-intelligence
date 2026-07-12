@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "npm run dev -w @triton/web",
     "dev:api": "npm run dev -w @triton/api",
-    "build": "npm run build -ws",
+    "build": "npm run build -ws --if-present",
     "db:seed": "npm run db:seed -w @triton/api"
   }
 }

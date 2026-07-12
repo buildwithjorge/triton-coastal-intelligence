@@ -86,6 +86,12 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5432/triton"
 JWT_SECRET="change-me"
 PORT=4000
 VITE_API_BASE_URL="http://localhost:4000"
+REQUEST_TIMEOUT_MS=12000
+UPLOAD_DIR="uploads"
+INTEGRATION_SYNC_ENABLED=false
+INTEGRATION_SYNC_INTERVAL_MS=900000
+INTEGRATION_SYNC_LIMIT=23
+INTEGRATION_SYNC_RUN_ON_STARTUP=false
 ```
 
 ### Install + Run
@@ -114,11 +120,19 @@ npm run build
 | GET | `/api/counties/:name/beaches` | Beaches in a county |
 | GET | `/api/feed` | Live intelligence feed (paginated) |
 | POST | `/api/observations` | Submit a field observation |
+| POST | `/api/observations/photos` | Upload an observation image and receive hosted URL |
 | GET | `/api/observations?beachId=` | Observation list by beach |
 | GET | `/api/alerts` | Active alert stream |
 | GET | `/api/contracts/tiers` | Contract and bundle pricing definitions |
 | GET | `/api/analytics/rankings` | Beaches ranked by 24h forecast arrival probability |
 | GET | `/api/analytics/economics` | Fleet-wide biomass economics rollup |
+
+## Automation Notes
+
+- Set `INTEGRATION_SYNC_ENABLED=true` to activate periodic provider sync in the API process.
+- `INTEGRATION_SYNC_INTERVAL_MS` controls sync cadence (minimum 60 seconds).
+- `INTEGRATION_SYNC_RUN_ON_STARTUP=true` performs an immediate sync when API starts.
+- Observation photo uploads are stored under `UPLOAD_DIR/observations` and served from `/uploads/observations/*`.
 
 ## Design System Principles
 
