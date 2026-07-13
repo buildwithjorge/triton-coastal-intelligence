@@ -283,7 +283,7 @@ export function App() {
             <IntelligenceReportView beaches={beaches} selectedBeachId={selectedBeachId} />
           ) : (
             <>
-              <div className="grid gap-3 xl:grid-cols-[1.28fr_1fr_0.7fr]">
+              <div className="grid gap-3 xl:grid-cols-[1.2fr_1fr]">
                 <RegionalOperationsMap
                   beaches={beaches}
                   selectedBeachId={selectedBeachId}
@@ -337,7 +337,9 @@ export function App() {
                   ) : null}
                 </div>
 
-                <LiveIntelligenceFeed />
+                <div className="xl:col-span-2">
+                  <LiveIntelligenceFeed />
+                </div>
               </div>
 
               <section className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-5">

@@ -76,7 +76,7 @@ export function BeachIntelligencePanel({ detail, loading }: Props) {
 				</div>
 			</div>
 
-			<div className="grid gap-4 xl:grid-cols-[260px_1fr]">
+			<div className="grid gap-4 2xl:grid-cols-[260px_1fr]">
 				<div className="panel rounded-xl p-3">
 					<TsiArcGauge tsi={beach.tsi} severity={beach.severity} size={220} />
 					<div className="mt-2 grid grid-cols-2 gap-2">
@@ -87,15 +87,15 @@ export function BeachIntelligencePanel({ detail, loading }: Props) {
 					</div>
 				</div>
 
-				<div className="grid gap-4">
-					<div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+				<div className="grid min-w-0 gap-4">
+					<div className="grid grid-cols-2 gap-3 2xl:grid-cols-4">
 						<Stat label="Trend 7D" value={`${beach.trend7d > 0 ? "+" : ""}${beach.trend7d}`} />
 						<Stat label="Biomass" value={`${beach.biomassEstTons.toFixed(1)} tons`} />
 						<Stat label="Cleanup Cost" value={`$${beach.cleanupCostEst.toLocaleString()}`} />
 						<Stat label="Product Value" value={`$${beach.productValueEst.toLocaleString()}`} />
 					</div>
 
-					<div className="grid gap-4 lg:grid-cols-2">
+					<div className="grid gap-4 2xl:grid-cols-2">
 						<div className="panel rounded-xl p-3">
 							<p className="mb-2 text-xs uppercase tracking-[0.16em] text-steel">7-Day TSI Trend</p>
 							<div className="h-44">
@@ -127,7 +127,7 @@ export function BeachIntelligencePanel({ detail, loading }: Props) {
 						</div>
 					</div>
 
-					<div className="grid gap-4 lg:grid-cols-2">
+					<div className="grid gap-4 2xl:grid-cols-2">
 						<div className="panel rounded-xl p-3">
 							<p className="mb-2 text-xs uppercase tracking-[0.16em] text-steel">Forecast Drivers (24h)</p>
 							<div className="h-44">
