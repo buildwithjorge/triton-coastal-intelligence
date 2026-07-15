@@ -1,47 +1,76 @@
-<svg width="1400" height="420" viewBox="0 0 1400 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triton Coastal Intelligence">
+<svg width="1400" height="420" viewBox="0 0 1400 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triton Coastal Intelligence banner for 2026 platform release">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#050d1e" />
-      <stop offset="55%" stop-color="#0a1e3d" />
-      <stop offset="100%" stop-color="#0d2548" />
+      <stop offset="0%" stop-color="#041225" />
+      <stop offset="45%" stop-color="#083053" />
+      <stop offset="100%" stop-color="#051627" />
     </linearGradient>
-    <linearGradient id="coast" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#00d4b8" />
-      <stop offset="50%" stop-color="#00a794" />
-      <stop offset="100%" stop-color="#007a6e" />
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#27f0d1" />
+      <stop offset="50%" stop-color="#1ec8ff" />
+      <stop offset="100%" stop-color="#44ffa8" />
     </linearGradient>
-    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="5" result="blur" />
+    <linearGradient id="hotspot" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff6d3a" />
+      <stop offset="100%" stop-color="#ffb13a" />
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
       <feMerge>
         <feMergeNode in="blur" />
         <feMergeNode in="SourceGraphic" />
       </feMerge>
     </filter>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M 34 0 L 0 0 0 34" fill="none" stroke="#7ec9ff" stroke-opacity="0.08" stroke-width="1" />
+    </pattern>
   </defs>
 
   <rect width="1400" height="420" fill="url(#bg)" />
-  <path d="M-20 330 C 180 300, 220 250, 420 250 C 650 250, 710 315, 900 315 C 1080 315, 1160 255, 1420 275 L 1420 460 L -20 460 Z" fill="#082347" opacity="0.8" />
-  <path d="M-20 360 C 170 330, 250 280, 420 280 C 630 280, 760 345, 900 345 C 1130 345, 1180 290, 1420 305 L 1420 460 L -20 460 Z" fill="#0d2548" opacity="0.85" />
+  <rect width="1400" height="420" fill="url(#grid)" />
 
-  <path d="M120 245 C 350 155, 490 115, 710 145 C 930 175, 1060 140, 1260 120" stroke="url(#coast)" stroke-width="6" fill="none" filter="url(#softGlow)" />
+  <circle cx="1200" cy="80" r="170" fill="#23d2ff" fill-opacity="0.08" />
+  <circle cx="150" cy="380" r="180" fill="#2cf2c2" fill-opacity="0.08" />
 
-  <circle cx="332" cy="188" r="7" fill="#ff3b5c" />
-  <circle cx="410" cy="165" r="6" fill="#ff6b2b" />
-  <circle cx="510" cy="152" r="6" fill="#f5a623" />
-  <circle cx="675" cy="154" r="6" fill="#00e676" />
-  <circle cx="886" cy="170" r="6" fill="#f5a623" />
-  <circle cx="1036" cy="153" r="7" fill="#ff3b5c" />
+  <path d="M-40 320 C 180 285, 305 330, 500 295 C 690 260, 860 330, 1030 298 C 1210 264, 1310 290, 1440 278 L 1440 470 L -40 470 Z" fill="#0a2745" opacity="0.9" />
+  <path d="M-40 348 C 145 314, 300 360, 490 336 C 690 310, 885 365, 1050 340 C 1215 315, 1300 325, 1440 316 L 1440 470 L -40 470 Z" fill="#0e355e" opacity="0.92" />
 
-  <text x="90" y="105" fill="#e8f2ff" font-family="Inter, Segoe UI, sans-serif" font-size="50" font-weight="700">TRITON COASTAL INTELLIGENCE</text>
-  <text x="92" y="145" fill="#88b8d7" font-family="Inter, Segoe UI, sans-serif" font-size="24" font-weight="500">Florida's Coastal Intelligence Platform</text>
+  <path d="M110 244 C 280 178, 470 146, 665 170 C 862 195, 1030 167, 1265 128" stroke="url(#accent)" stroke-width="6" fill="none" filter="url(#glow)" />
 
-  <g transform="translate(92 182)">
-    <rect x="0" y="0" width="250" height="32" rx="8" fill="#00d4b8" fill-opacity="0.12" stroke="#00d4b8" stroke-opacity="0.35" />
-    <text x="15" y="22" fill="#00d4b8" font-family="JetBrains Mono, Consolas, monospace" font-size="16">JUPITER → KEY BISCAYNE</text>
+  <circle cx="284" cy="193" r="7" fill="url(#hotspot)" />
+  <circle cx="405" cy="172" r="6" fill="#ff8e3a" />
+  <circle cx="541" cy="164" r="6" fill="#ffd14a" />
+  <circle cx="712" cy="172" r="6" fill="#47ffb2" />
+  <circle cx="930" cy="186" r="6" fill="#ffd14a" />
+  <circle cx="1093" cy="166" r="7" fill="url(#hotspot)" />
+
+  <text x="88" y="98" fill="#eef7ff" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="700" letter-spacing="1">TRITON COASTAL INTELLIGENCE</text>
+  <text x="90" y="136" fill="#9fd3f7" font-family="Segoe UI, Arial, sans-serif" font-size="23" font-weight="600">Operations Platform 2026 · Real-time forecasting, alerts, and regional command intelligence</text>
+
+  <g transform="translate(90 164)">
+    <rect x="0" y="0" width="255" height="34" rx="8" fill="#2ff0ce" fill-opacity="0.12" stroke="#2ff0ce" stroke-opacity="0.4" />
+    <text x="16" y="23" fill="#72ffe0" font-family="Consolas, monospace" font-size="15" font-weight="700">COVERAGE: JUPITER TO KEY BISCAYNE</text>
   </g>
 
-  <g transform="translate(360 182)">
-    <rect x="0" y="0" width="202" height="32" rx="8" fill="#ff3b5c" fill-opacity="0.10" stroke="#ff3b5c" stroke-opacity="0.30" />
-    <text x="16" y="22" fill="#ff8ca1" font-family="JetBrains Mono, Consolas, monospace" font-size="16">23 MONITORED BEACHES</text>
+  <g transform="translate(362 164)">
+    <rect x="0" y="0" width="235" height="34" rx="8" fill="#1ec8ff" fill-opacity="0.12" stroke="#1ec8ff" stroke-opacity="0.45" />
+    <text x="16" y="23" fill="#8fddff" font-family="Consolas, monospace" font-size="15" font-weight="700">23 BEACHES · 3 COUNTIES</text>
+  </g>
+
+  <g transform="translate(615 164)">
+    <rect x="0" y="0" width="212" height="34" rx="8" fill="#ff7f3a" fill-opacity="0.12" stroke="#ff8b4a" stroke-opacity="0.45" />
+    <text x="16" y="23" fill="#ffbf8f" font-family="Consolas, monospace" font-size="15" font-weight="700">FORECAST WINDOWS: 24H TO 14D</text>
+  </g>
+
+  <g transform="translate(846 164)">
+    <rect x="0" y="0" width="215" height="34" rx="8" fill="#44ffa8" fill-opacity="0.11" stroke="#44ffa8" stroke-opacity="0.4" />
+    <text x="16" y="23" fill="#8bffbf" font-family="Consolas, monospace" font-size="15" font-weight="700">PRODUCT STATUS: OPERATIONAL</text>
+  </g>
+
+  <g transform="translate(90 222)">
+    <rect x="0" y="0" width="1215" height="104" rx="14" fill="#051a2f" fill-opacity="0.7" stroke="#2e6b98" stroke-opacity="0.5" />
+    <text x="22" y="36" fill="#b5dcff" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="600">Platform Modules</text>
+    <text x="22" y="68" fill="#dcefff" font-family="Consolas, monospace" font-size="15">Map Ops | Beach TSI | Landfall | NOAA SIR | Observer | County Command | Cameras | Reports | Analytics</text>
+    <text x="22" y="91" fill="#9bc7e7" font-family="Consolas, monospace" font-size="14">API + Web Monorepo · TypeScript · Prisma · React · Vite</text>
   </g>
 </svg>

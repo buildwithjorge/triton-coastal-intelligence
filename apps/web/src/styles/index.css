@@ -5,12 +5,20 @@
 @tailwind utilities;
 
 :root {
+  --abyss: #040c14;
   --navy: #050d1e;
+  --navy-2: #0e2438;
   --panel: #0a1e3d;
   --panel-hi: #0d2548;
+  --line: #1c3549;
   --teal: #00d4b8;
   --teal-dim: #007a6e;
+  --seaweed: #a3b332;
   --amber: #f5a623;
+  --coral: #ff6a4d;
+  --mist: #7c93a8;
+  --foam: #e8f4f1;
+  --chart-line: #3a5468;
   --red: #ff3b5c;
   --orange: #ff6b2b;
   --green: #00e676;
