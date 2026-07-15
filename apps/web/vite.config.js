@@ -4,6 +4,10 @@
  */
 import { defineConfig } from "vite";
 export default defineConfig({
+    resolve: {
+        // Keep TS/TSX as source-of-truth when parallel JS files exist.
+        extensions: [".tsx", ".ts", ".jsx", ".js", ".mjs", ".json"]
+    },
     server: {
         port: 5173,
         proxy: {
