@@ -43,6 +43,11 @@ These statuses are hard-coded and treated as single-source procurement reference
 
 The architecture is intentionally modular so data providers (e.g., telemetry, CV classifiers, map rendering engines) can evolve without rewriting core product flows.
 
+## User Documentation
+
+- Complete operator guide: `docs/platform-user-guide.md`
+- Virtual tour script: `docs/virtual-tour.md`
+
 ## Monorepo Layout
 
 | Path | Purpose |

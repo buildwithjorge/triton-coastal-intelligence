@@ -5,26 +5,64 @@
 @tailwind utilities;
 
 :root {
-  --abyss: #040c14;
-  --navy: #050d1e;
-  --navy-2: #0e2438;
-  --panel: #0a1e3d;
-  --panel-hi: #0d2548;
-  --line: #1c3549;
-  --teal: #00d4b8;
-  --teal-dim: #007a6e;
-  --seaweed: #a3b332;
-  --amber: #f5a623;
-  --coral: #ff6a4d;
-  --mist: #7c93a8;
-  --foam: #e8f4f1;
-  --chart-line: #3a5468;
-  --red: #ff3b5c;
-  --orange: #ff6b2b;
-  --green: #00e676;
-  --ice: #e8f2ff;
-  --steel: #4a7a9b;
-  --border: rgba(0, 212, 184, 0.14);
+  --navy-rgb: 5 13 30;
+  --panel-rgb: 10 30 61;
+  --panel-hi-rgb: 13 37 72;
+  --teal-rgb: 0 212 184;
+  --teal-dim-rgb: 0 122 110;
+  --amber-rgb: 245 166 35;
+  --red-rgb: 255 59 92;
+  --orange-rgb: 255 107 43;
+  --green-rgb: 0 230 118;
+  --ice-rgb: 232 242 255;
+  --steel-rgb: 74 122 155;
+  --border-rgb: 0 212 184;
+
+  --abyss: rgb(4 12 20);
+  --navy: rgb(var(--navy-rgb));
+  --navy-2: rgb(14 36 56);
+  --panel: rgb(var(--panel-rgb));
+  --panel-hi: rgb(var(--panel-hi-rgb));
+  --line: rgb(28 53 73);
+  --teal: rgb(var(--teal-rgb));
+  --teal-dim: rgb(var(--teal-dim-rgb));
+  --seaweed: rgb(163 179 50);
+  --amber: rgb(var(--amber-rgb));
+  --coral: rgb(255 106 77);
+  --mist: rgb(124 147 168);
+  --foam: rgb(232 244 241);
+  --chart-line: rgb(58 84 104);
+  --red: rgb(var(--red-rgb));
+  --orange: rgb(var(--orange-rgb));
+  --green: rgb(var(--green-rgb));
+  --ice: rgb(var(--ice-rgb));
+  --steel: rgb(var(--steel-rgb));
+  --border: rgb(var(--border-rgb) / 0.14);
+}
+
+:root[data-theme="light"] {
+  --navy-rgb: 234 243 252;
+  --panel-rgb: 245 250 255;
+  --panel-hi-rgb: 227 238 249;
+  --teal-rgb: 0 126 112;
+  --teal-dim-rgb: 0 96 85;
+  --amber-rgb: 191 120 13;
+  --red-rgb: 196 45 70;
+  --orange-rgb: 201 96 35;
+  --green-rgb: 16 140 83;
+  --ice-rgb: 20 41 63;
+  --steel-rgb: 63 94 122;
+  --border-rgb: 9 91 130;
+
+  --abyss: rgb(238 246 255);
+  --navy-2: rgb(209 225 242);
+  --line: rgb(195 215 235);
+  --seaweed: rgb(121 143 38);
+  --coral: rgb(194 87 68);
+  --mist: rgb(100 128 154);
+  --foam: rgb(248 252 255);
+  --chart-line: rgb(113 143 169);
+  --border: rgb(var(--border-rgb) / 0.22);
 }
 
 body {
@@ -37,6 +75,13 @@ body {
     radial-gradient(circle at 92% 10%, rgba(245, 166, 35, 0.07), transparent 26%),
     linear-gradient(140deg, #050d1e 0%, #071630 42%, #081a35 100%);
   min-height: 100vh;
+}
+
+:root[data-theme="light"] body {
+  background-image:
+    radial-gradient(circle at 8% 2%, rgb(0 126 112 / 0.13), transparent 28%),
+    radial-gradient(circle at 94% 8%, rgb(191 120 13 / 0.12), transparent 24%),
+    linear-gradient(150deg, rgb(232 242 251) 0%, rgb(243 249 255) 45%, rgb(224 237 249) 100%);
 }
 
 #root {

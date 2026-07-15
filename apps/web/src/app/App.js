@@ -16,6 +16,8 @@ import { BeachIntelligencePanel } from "../components/tsi/BeachIntelligencePanel
 import { getBeachDetail, getBeaches, getLiveBeachIntelligence, getProviderHealth, syncBeachIntelligence } from "../lib/api";
 export function App() {
     const [activeTab, setActiveTab] = useState("operations");
+    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [isFullscreen, setIsFullscreen] = useState(false);
     // Tracks the active county filter for the regional map.
     // "All" means no county filter is applied.
     const [selectedCounty, setSelectedCounty] = useState("All");
@@ -39,6 +41,45 @@ export function App() {
     const [providerHealth, setProviderHealth] = useState([]);
     const [liveBeach, setLiveBeach] = useState(null);
     const [syncing, setSyncing] = useState(false);
+    useEffect(() => {
+        const saved = window.localStorage.getItem("triton-theme");
+        if (saved === "light") {
+            setIsDarkMode(false);
+            return;
+        }
+        if (saved === "dark") {
+            setIsDarkMode(true);
+            return;
+        }
+        setIsDarkMode(!window.matchMedia("(prefers-color-scheme: light)").matches);
+    }, []);
+    useEffect(() => {
+        document.documentElement.setAttribute("data-theme", isDarkMode ? "dark" : "light");
+        window.localStorage.setItem("triton-theme", isDarkMode ? "dark" : "light");
+    }, [isDarkMode]);
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            setIsFullscreen(Boolean(document.fullscreenElement));
+        };
+        handleFullscreenChange();
+        document.addEventListener("fullscreenchange", handleFullscreenChange);
+        return () => {
+            document.removeEventListener("fullscreenchange", handleFullscreenChange);
+        };
+    }, []);
+    const toggleFullscreen = async () => {
+        try {
+            if (document.fullscreenElement) {
+                await document.exitFullscreen();
+            }
+            else {
+                await document.documentElement.requestFullscreen();
+            }
+        }
+        catch (err) {
+            setError(err instanceof Error ? err.message : "Fullscreen is unavailable on this browser.");
+        }
+    };
     // Effect 1: refresh beach list whenever county filter changes.
     // This drives the left-side map markers and resets selected beach.
     useEffect(() => {
@@ -155,7 +196,9 @@ export function App() {
                                         ["county", "County"],
                                         ["cameras", "Cameras"],
                                         ["reports", "Reports"]
-                                    ].map(([value, label]) => (_jsx("button", { type: "button", onClick: () => setActiveTab(value), className: `rounded-md border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] ${activeTab === value ? "border-teal bg-teal/20 text-teal" : "border-transparent bg-navy/40 text-steel hover:border-border"}`, children: label }, value))) }), _jsxs("div", { className: "grid grid-cols-2 gap-2", children: [_jsxs("article", { className: "rounded-md border border-border bg-navy/50 px-3 py-1.5", children: [_jsx("p", { className: "text-[10px] uppercase tracking-[0.14em] text-steel", children: "Beaches Online" }), _jsx("p", { className: "font-display text-3xl leading-none", children: beaches.length })] }), _jsxs("article", { className: "rounded-md border border-border bg-navy/50 px-3 py-1.5", children: [_jsx("p", { className: "text-[10px] uppercase tracking-[0.14em] text-steel", children: "Severe Alerts" }), _jsx("p", { className: "font-display text-3xl leading-none text-red", children: severeCount })] })] })] }), _jsx("section", { className: "mb-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4", children: Object.entries(platformMaturity).map(([product, status]) => (_jsxs("article", { className: "rounded-xl border border-border bg-panel-hi/55 p-3", children: [_jsx("h2", { className: "text-sm font-semibold text-ice", children: product.replace("™", "") }), _jsx("p", { className: "mt-1 text-xs text-teal", children: status })] }, product))) }), _jsx("section", { className: "mb-3 grid gap-2 md:grid-cols-3", children: providerHealth.map((provider) => (_jsxs("article", { className: "rounded-xl border border-border bg-panel-hi/55 p-3", children: [_jsx("p", { className: "text-[11px] uppercase tracking-[0.14em] text-steel", children: provider.provider.replaceAll("_", " ") }), _jsx("p", { className: `mt-1 text-xs font-semibold uppercase tracking-[0.12em] ${provider.status === "online" ? "text-green" : "text-amber"}`, children: provider.status }), _jsx("p", { className: "text-xs text-steel", children: provider.detail })] }, provider.provider))) }), error ? _jsx("p", { className: "mb-3 rounded-md border border-red/30 bg-red/10 p-2 text-sm text-red", children: error }) : null, mapLoading ? (_jsx("div", { className: "rounded-xl border border-border bg-panel-hi/50 p-5 text-sm text-steel", children: "Loading regional operations data..." })) : activeTab === "forecast" ? (_jsx(ForecastingCenter, { beachId: selectedBeachId })) : activeTab === "observer" ? (_jsx(FieldObserverApp, { beaches: beaches, defaultBeachId: selectedBeachId, onSubmitted: async (beachId) => {
+                                    ].map(([value, label]) => (_jsx("button", { type: "button", onClick: () => setActiveTab(value), className: `rounded-md border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] ${activeTab === value ? "border-teal bg-teal/20 text-teal" : "border-transparent bg-navy/40 text-steel hover:border-border"}`, children: label }, value))) }), _jsxs("div", { className: "flex items-center gap-2", children: [_jsx("button", { type: "button", onClick: () => setIsDarkMode((value) => !value), className: "rounded-md border border-border bg-navy/55 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-ice hover:border-teal", "aria-label": isDarkMode ? "Switch to light mode" : "Switch to dark mode", title: isDarkMode ? "Switch to light mode" : "Switch to dark mode", children: isDarkMode ? "Light Mode" : "Dark Mode" }), _jsx("button", { type: "button", onClick: () => {
+                                                void toggleFullscreen();
+                                            }, className: "rounded-md border border-teal bg-teal/20 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-teal hover:bg-teal/30", "aria-label": isFullscreen ? "Exit fullscreen" : "Enter fullscreen", title: isFullscreen ? "Exit fullscreen" : "Enter fullscreen", children: isFullscreen ? "Exit Fullscreen" : "Fullscreen" }), _jsxs("div", { className: "grid grid-cols-2 gap-2", children: [_jsxs("article", { className: "rounded-md border border-border bg-navy/50 px-3 py-1.5", children: [_jsx("p", { className: "text-[10px] uppercase tracking-[0.14em] text-steel", children: "Beaches Online" }), _jsx("p", { className: "font-display text-3xl leading-none", children: beaches.length })] }), _jsxs("article", { className: "rounded-md border border-border bg-navy/50 px-3 py-1.5", children: [_jsx("p", { className: "text-[10px] uppercase tracking-[0.14em] text-steel", children: "Severe Alerts" }), _jsx("p", { className: "font-display text-3xl leading-none text-red", children: severeCount })] })] })] })] }), _jsx("section", { className: "mb-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4", children: Object.entries(platformMaturity).map(([product, status]) => (_jsxs("article", { className: "rounded-xl border border-border bg-panel-hi/55 p-3", children: [_jsx("h2", { className: "text-sm font-semibold text-ice", children: product.replace("™", "") }), _jsx("p", { className: "mt-1 text-xs text-teal", children: status })] }, product))) }), _jsx("section", { className: "mb-3 grid gap-2 md:grid-cols-3", children: providerHealth.map((provider) => (_jsxs("article", { className: "rounded-xl border border-border bg-panel-hi/55 p-3", children: [_jsx("p", { className: "text-[11px] uppercase tracking-[0.14em] text-steel", children: provider.provider.replaceAll("_", " ") }), _jsx("p", { className: `mt-1 text-xs font-semibold uppercase tracking-[0.12em] ${provider.status === "online" ? "text-green" : "text-amber"}`, children: provider.status }), _jsx("p", { className: "text-xs text-steel", children: provider.detail })] }, provider.provider))) }), error ? _jsx("p", { className: "mb-3 rounded-md border border-red/30 bg-red/10 p-2 text-sm text-red", children: error }) : null, mapLoading ? (_jsx("div", { className: "rounded-xl border border-border bg-panel-hi/50 p-5 text-sm text-steel", children: "Loading regional operations data..." })) : activeTab === "forecast" ? (_jsx(ForecastingCenter, { beachId: selectedBeachId })) : activeTab === "observer" ? (_jsx(FieldObserverApp, { beaches: beaches, defaultBeachId: selectedBeachId, onSubmitted: async (beachId) => {
                                 const [nextDetail, nextLive] = await Promise.all([getBeachDetail(beachId), getLiveBeachIntelligence(beachId)]);
                                 setSelectedBeachId(beachId);
                                 setSelectedBeachDetail(nextDetail);

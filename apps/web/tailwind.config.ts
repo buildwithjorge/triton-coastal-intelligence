@@ -10,18 +10,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        navy: "#050d1e",
-        panel: "#0a1e3d",
-        "panel-hi": "#0d2548",
-        teal: "#00d4b8",
-        "teal-dim": "#007a6e",
-        amber: "#f5a623",
-        red: "#ff3b5c",
-        orange: "#ff6b2b",
-        green: "#00e676",
-        ice: "#e8f2ff",
-        steel: "#4a7a9b",
-        border: "rgba(0, 212, 184, 0.14)"
+        navy: "rgb(var(--navy-rgb) / <alpha-value>)",
+        panel: "rgb(var(--panel-rgb) / <alpha-value>)",
+        "panel-hi": "rgb(var(--panel-hi-rgb) / <alpha-value>)",
+        teal: "rgb(var(--teal-rgb) / <alpha-value>)",
+        "teal-dim": "rgb(var(--teal-dim-rgb) / <alpha-value>)",
+        amber: "rgb(var(--amber-rgb) / <alpha-value>)",
+        red: "rgb(var(--red-rgb) / <alpha-value>)",
+        orange: "rgb(var(--orange-rgb) / <alpha-value>)",
+        green: "rgb(var(--green-rgb) / <alpha-value>)",
+        ice: "rgb(var(--ice-rgb) / <alpha-value>)",
+        steel: "rgb(var(--steel-rgb) / <alpha-value>)",
+        border: "rgb(var(--border-rgb) / <alpha-value>)"
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],

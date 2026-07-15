@@ -20,6 +20,8 @@ type ModuleTab = "operations" | "forecast" | "observer" | "county" | "cameras" |
 
 export function App() {
   const [activeTab, setActiveTab] = useState<ModuleTab>("operations");
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   // Tracks the active county filter for the regional map.
   // "All" means no county filter is applied.
   const [selectedCounty, setSelectedCounty] = useState<string>("All");
@@ -49,6 +51,49 @@ export function App() {
   const [providerHealth, setProviderHealth] = useState<ProviderHealthResponse["providers"]>([]);
   const [liveBeach, setLiveBeach] = useState<LiveBeachIntelligenceResponse | null>(null);
   const [syncing, setSyncing] = useState<boolean>(false);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem("triton-theme");
+    if (saved === "light") {
+      setIsDarkMode(false);
+      return;
+    }
+    if (saved === "dark") {
+      setIsDarkMode(true);
+      return;
+    }
+
+    setIsDarkMode(!window.matchMedia("(prefers-color-scheme: light)").matches);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", isDarkMode ? "dark" : "light");
+    window.localStorage.setItem("triton-theme", isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+
+    handleFullscreenChange();
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
+  const toggleFullscreen = async () => {
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else {
+        await document.documentElement.requestFullscreen();
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Fullscreen is unavailable on this browser.");
+    }
+  };
 
   // Effect 1: refresh beach list whenever county filter changes.
   // This drives the left-side map markers and resets selected beach.
@@ -225,7 +270,30 @@ export function App() {
               ))}
             </nav>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setIsDarkMode((value) => !value)}
+                className="rounded-md border border-border bg-navy/55 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-ice hover:border-teal"
+                aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+                title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+              >
+                {isDarkMode ? "Light Mode" : "Dark Mode"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  void toggleFullscreen();
+                }}
+                className="rounded-md border border-teal bg-teal/20 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-teal hover:bg-teal/30"
+                aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+                title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+              >
+                {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+              </button>
+
+              <div className="grid grid-cols-2 gap-2">
               <article className="rounded-md border border-border bg-navy/50 px-3 py-1.5">
                 <p className="text-[10px] uppercase tracking-[0.14em] text-steel">Beaches Online</p>
                 <p className="font-display text-3xl leading-none">{beaches.length}</p>
@@ -234,6 +302,7 @@ export function App() {
                 <p className="text-[10px] uppercase tracking-[0.14em] text-steel">Severe Alerts</p>
                 <p className="font-display text-3xl leading-none text-red">{severeCount}</p>
               </article>
+              </div>
             </div>
           </header>
 
